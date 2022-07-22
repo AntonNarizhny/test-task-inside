@@ -46,14 +46,14 @@
 ```
 3. При первом запуске проекта Liquibase создаст все необходимые таблицы в базе данных и добавит в них данные.
 
-##Для работы через Docker❗
+## Для работы через Docker❗
 Необходимо перейти на мой [Docker Hub](https://hub.docker.com/u/antonnarizhny) и скачать image проекта. 
 Команда **docker pull antonnarizhny/test-task-inside_api_service** может измениться в будущем.
 Данную команду необходимо ввести в терминал, после чего нужно ввести команду **docker images**, чтобы убедиться, что image скачан.
 Следом нужно последовательно ввести команды **docker-compose build** и **docker-compose up**.
 Вместе с проектом будет загружен image PostgreSQL. Сервис сам к ней подключится, Liquibase создаст все необходимые таблицы в базе данных и добавит в них данные.
 
-##После сервис можно тестировать с помощью cURL, Swagger, Postman и так далее.
+## После сервис можно тестировать с помощью cURL, Swagger, Postman и так далее.
 Сервис работает на порту 9000 и к нему следует обращаться по адресу **localhost:9000/_endpoint_**.
 Для тестирования доступно 3 сущности Client c полями name и password соответственно:
 1. user - 12345
@@ -67,12 +67,12 @@ Bearer токен, полученный из эндпоинта /api/v1/clients/
 
 Для получения сообщений из БД сообщение должно быть вида: history (**количество желаемых последних сообщений для получения(тип long)**).
 
-##Эндпоинты сервиса, а также схемы принимаемых и возвращаемых DTO
+## Эндпоинты сервиса, а также схемы принимаемых и возвращаемых DTO
 ![Image of Maint](documentation/token_POST_endpoint.png)
 ![Image of Maint](documentation/messages_POST_endpoint.png)
 ![Image of Maint](documentation/schemas.png)
 
-##cURL для тестирования
+## cURL для тестирования
 Для получения токена через Post эндпоинт /api/v1/clients/token:
 
 curl -X 'POST' \
@@ -90,7 +90,7 @@ curl -X 'POST' \
 'http://localhost:9000/api/v1/clients/messages' \
 -H 'accept: */*' \
 -H 'Content-Type: application/json' \
--H 'Token: Bearer_(токен из прошлого запроса)' \
+-H 'Token: Bearer_(токен из первого запроса)' \
 -d '{
 "name": "name(user)",
 "message": "message(hello world)"
@@ -102,7 +102,7 @@ curl -X 'POST' \
 'http://localhost:9000/api/v1/clients/messages' \
 -H 'accept: */*' \
 -H 'Content-Type: application/json' \
--H 'Token: Bearer_(токен из прошлого запроса)' \
+-H 'Token: Bearer_(токен из первого запроса)' \
 -d '{
 "name": "name(user)",
 "message": "history **количество желаемых последних сообщений для получения(тип long)**(history 10)"
