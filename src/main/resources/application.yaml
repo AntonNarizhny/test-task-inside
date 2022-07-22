@@ -1,1 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: admin
+    url: jdbc:postgresql://localhost:5432/inside
 
+  jpa:
+    properties.hibernate:
+      show_sql: true
+      format_sql: true
+      hbm2ddl.auto: validate
+    open-in-view: false
+
+  liquibase:
+    liquibase-schema: liquibase
+
+server:
+  port: 8082
+
+jwt.token:
+  secret: insidetesttaskantonnarizhnyjuniorjavadeveloper
+  expired: 3600000
