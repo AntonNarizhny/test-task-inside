@@ -1,6 +1,6 @@
 # Token And Message Service
 
-## Service, выполняющий следующий функционал:
+## REST Service, выполняющий следующий функционал:
 - Проверка клиента в базе по name и password
 - Генерация, проверка наличия и валидация JWT токена
 - Сохранение сообщений от клиента
@@ -18,7 +18,7 @@
 
 ## Запуск проекта
 1. Скопируйте проект к себе с помощью git clone.
-2. В файле application.yaml добавьте данные для подключения к базе данных (имя пользователя, пароль и URL).
+2. В файле application.yaml добавьте данные для подключения к базе данных (имя пользователя, пароль и URL), если хотите использовать другие.
 ```java
     spring:
         datasource:
@@ -45,6 +45,68 @@
             expired: 3600000
 ```
 3. При первом запуске проекта Liquibase создаст все необходимые таблицы в базе данных и добавит в них данные.
+
+##Для работы через Docker❗
+Необходимо перейти на мой [Docker Hub](https://hub.docker.com/u/antonnarizhny) и скачать image проекта. 
+Команда **docker pull antonnarizhny/test-task-inside_api_service** может измениться в будущем.
+Данную команду необходимо ввести в терминал, после чего нужно ввести команду **docker images**, чтобы убедиться, что image скачан.
+Следом нужно последовательно ввести команды **docker-compose build** и **docker-compose up**.
+Вместе с проектом будет загружен image PostgreSQL. Сервис сам к ней подключится, Liquibase создаст все необходимые таблицы в базе данных и добавит в них данные.
+
+##После сервис можно тестировать с помощью cURL, Swagger, Postman и так далее.
+Сервис работает на порту 9000 и к нему следует обращаться по адресу **localhost:9000/_endpoint_**.
+Для тестирования доступно 3 сущности Client c полями name и password соответственно:
+1. user - 12345
+2. anton - 07111998
+3. test - 55555
+
+При желании это можно изменить в миграции **db.changelog-2.0.sql**.
+
+Для обращения к эндпоинту /api/v1/clients/token токен не нужен. Нужны только name и password, которые приведены выше.
+Bearer токен, полученный из эндпоинта /api/v1/clients/token необходимо указывать в заголовках запроса с ключом Token (между Bearer и токеном должно быть нижнее подчеркивание).
+
+Для получения сообщений из БД сообщение должно быть вида: history (**количество желаемых последних сообщений для получения(тип long)**).
+
+##Эндпоинты сервиса, а также схемы принимаемых и возвращаемых DTO
+![Image of Maint](documentation/token_POST_endpoint.png)
+![Image of Maint](documentation/messages_POST_endpoint.png)
+![Image of Maint](documentation/schemas.png)
+
+##cURL для тестирования
+Для получения токена через Post эндпоинт /api/v1/clients/token:
+
+curl -X 'POST' \
+'http://localhost:9000/api/v1/clients/token' \
+-H 'accept: */*' \
+-H 'Content-Type: application/json' \
+-d '{
+"name": "name(user)",
+"password": "password(12345)"
+}'
+
+Для сохранения сообщения через Post эндпоинт /api/v1/clients/messages:
+
+curl -X 'POST' \
+'http://localhost:9000/api/v1/clients/messages' \
+-H 'accept: */*' \
+-H 'Content-Type: application/json' \
+-H 'Token: Bearer_(токен из прошлого запроса)' \
+-d '{
+"name": "name(user)",
+"message": "message(hello world)"
+}'
+
+Для получения сообщений из базы данных через Post эндпоинт /api/v1/clients/messages:
+
+curl -X 'POST' \
+'http://localhost:9000/api/v1/clients/messages' \
+-H 'accept: */*' \
+-H 'Content-Type: application/json' \
+-H 'Token: Bearer_(токен из прошлого запроса)' \
+-d '{
+"name": "name(user)",
+"message": "history **количество желаемых последних сообщений для получения(тип long)**(history 10)"
+}'
 
 ### **Технологии, которые были использованы**:
 * Java 11
