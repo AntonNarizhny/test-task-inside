@@ -47,7 +47,8 @@
 3. При первом запуске проекта Liquibase создаст все необходимые таблицы в базе данных и добавит в них данные.
 
 ## Для работы через Docker❗
-Необходимо перейти на мой [Docker Hub](https://hub.docker.com/u/antonnarizhny) и скачать image проекта. 
+Сперва необходимо выполнить команду **./mvnw clean**, после **./mvnw clean package -DskipTests**.
+Далее необходимо перейти на мой [Docker Hub](https://hub.docker.com/u/antonnarizhny) и скачать image проекта. 
 Команда **docker pull antonnarizhny/test-task-inside_api_service** может измениться в будущем.
 Данную команду необходимо ввести в терминал, после чего нужно ввести команду **docker images**, чтобы убедиться, что image скачан.
 Следом нужно последовательно ввести команды **docker-compose build** и **docker-compose up**.
@@ -80,8 +81,8 @@ curl -X 'POST' \
 -H 'accept: */*' \
 -H 'Content-Type: application/json' \
 -d '{
-"name": "name(user)",
-"password": "password(12345)"
+"name": "test",
+"password": "55555"
 }'
 
 Для сохранения сообщения через Post эндпоинт /api/v1/clients/messages:
@@ -90,10 +91,10 @@ curl -X 'POST' \
 'http://localhost:9000/api/v1/clients/messages' \
 -H 'accept: */*' \
 -H 'Content-Type: application/json' \
--H 'Token: Bearer_(токен из первого запроса)' \
+-H 'Token: Bearer_**(токен из первого запроса)**' \
 -d '{
-"name": "name(user)",
-"message": "message(hello world)"
+"name": "test",
+"message": "hello world"
 }'
 
 Для получения сообщений из базы данных через Post эндпоинт /api/v1/clients/messages:
@@ -102,9 +103,9 @@ curl -X 'POST' \
 'http://localhost:9000/api/v1/clients/messages' \
 -H 'accept: */*' \
 -H 'Content-Type: application/json' \
--H 'Token: Bearer_(токен из первого запроса)' \
+-H 'Token: Bearer_**(токен из первого запроса)**' \
 -d '{
-"name": "name(user)",
+"name": "test",
 "message": "history **количество желаемых последних сообщений для получения(тип long)**(history 10)"
 }'
 
