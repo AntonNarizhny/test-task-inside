@@ -47,7 +47,8 @@
 3. При первом запуске проекта Liquibase создаст все необходимые таблицы в базе данных и добавит в них данные.
 
 ## Для работы через Docker❗
-Необходимо перейти на мой [Docker Hub](https://hub.docker.com/u/antonnarizhny) и скачать image проекта. 
+Сперва необходимо выполнить команду **./mvnw clean**, после **./mvnw clean package -DskipTests**.
+Далее необходимо перейти на мой [Docker Hub](https://hub.docker.com/u/antonnarizhny) и скачать image проекта. 
 Команда **docker pull antonnarizhny/test-task-inside_api_service** может измениться в будущем.
 Данную команду необходимо ввести в терминал, после чего нужно ввести команду **docker images**, чтобы убедиться, что image скачан.
 Следом нужно последовательно ввести команды **docker-compose build** и **docker-compose up**.
@@ -75,37 +76,31 @@ Bearer токен, полученный из эндпоинта /api/v1/clients/
 ## cURL для тестирования
 Для получения токена через Post эндпоинт /api/v1/clients/token:
 
-curl -X 'POST' \
-'http://localhost:9000/api/v1/clients/token' \
--H 'accept: */*' \
--H 'Content-Type: application/json' \
--d '{
-"name": "name(user)",
-"password": "password(12345)"
+curl --location --request POST 'localhost:9000/api/v1/clients/token' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"name": "test",
+"password": "55555"
 }'
 
 Для сохранения сообщения через Post эндпоинт /api/v1/clients/messages:
 
-curl -X 'POST' \
-'http://localhost:9000/api/v1/clients/messages' \
--H 'accept: */*' \
--H 'Content-Type: application/json' \
--H 'Token: Bearer_(токен из первого запроса)' \
--d '{
-"name": "name(user)",
-"message": "message(hello world)"
+curl --location --request POST 'localhost:9000/api/v1/clients/messages' \
+--header 'Token: Bearer_**(токен из первого запроса)**' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"name": "test",
+"message": "hello world"
 }'
 
 Для получения сообщений из базы данных через Post эндпоинт /api/v1/clients/messages:
 
-curl -X 'POST' \
-'http://localhost:9000/api/v1/clients/messages' \
--H 'accept: */*' \
--H 'Content-Type: application/json' \
--H 'Token: Bearer_(токен из первого запроса)' \
--d '{
-"name": "name(user)",
-"message": "history **количество желаемых последних сообщений для получения(тип long)**(history 10)"
+curl --location --request POST 'localhost:9000/api/v1/clients/messages' \
+--header 'Token: Bearer_**(токен из первого запроса)**' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"name": "test",
+"message": "history **количество желаемых последних сообщений для получения(тип long)**(Пример: history 3)"
 }'
 
 ### **Технологии, которые были использованы**:
