@@ -1,6 +1,9 @@
 --liquibase formatted sql
 
 --changeset anton_narizhny:1
+SET search_path = "public";
+
+--changeset anton_narizhny:2
 CREATE TABLE IF NOT EXISTS client
 (
     id SERIAL PRIMARY KEY ,
@@ -9,7 +12,7 @@ CREATE TABLE IF NOT EXISTS client
     token TEXT
 );
 
---changeset anton_narizhny:2
+--changeset anton_narizhny:3
 CREATE TABLE IF NOT EXISTS message
 (
     id BIGSERIAL PRIMARY KEY ,

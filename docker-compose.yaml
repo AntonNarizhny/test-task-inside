@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_db:5432/inside
+  postgres_db:
+    image: "postgres:11.4"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: inside
+      POSTGRES_PASSWORD: admin

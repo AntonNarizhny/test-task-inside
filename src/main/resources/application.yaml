@@ -13,10 +13,10 @@ spring:
     open-in-view: false
 
   liquibase:
-    liquibase-schema: liquibase
+    liquibase-schema: public
 
 server:
-  port: 8082
+  port: 9000
 
 jwt.token:
   secret: insidetesttaskantonnarizhnyjuniorjavadeveloper
