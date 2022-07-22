@@ -56,19 +56,14 @@ public class ClientService {
     }
 
     private ResponseEntity<List<MessageResponseDto>> handleMessage(MessageRequestDto messageDto) {
-        String message = messageDto.getMessage();
-        if (message == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         Optional<Client> client = clientRepository.findByName(messageDto.getName());
         if (client.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (message.startsWith("history ")) {
+        if (messageDto.getMessage().startsWith("history ")) {
             try {
-                Long messagesCount = Long.parseLong(message.substring(8));
+                Long messagesCount = Long.parseLong(messageDto.getMessage().substring(8));
                 List<MessageFromDb> messages = clientRepository.findAllByHistory(messageDto.getName(), messagesCount);
 
                 List<MessageResponseDto> response = messages.stream()
@@ -81,7 +76,7 @@ public class ClientService {
             }
         } else {
             Message newMessage = new Message();
-            newMessage.setMessage(message);
+            newMessage.setMessage(messageDto.getMessage());
 
             client.get().getMessages().add(newMessage);
             clientRepository.saveAndFlush(client.get());

@@ -3,6 +3,7 @@ package ru.narizhny.test_task_inside.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.narizhny.test_task_inside.domain.dto.MessageRequestDto;
 import ru.narizhny.test_task_inside.domain.dto.MessageResponseDto;
@@ -22,13 +23,13 @@ public class ClientRestController {
 
     @PostMapping("/token")
     @ResponseStatus(HttpStatus.CREATED)
-    public TokenResponseDto getToken(@RequestBody TokenRequestDto tokenDto) {
+    public TokenResponseDto getToken(@Validated @RequestBody TokenRequestDto tokenDto) {
         return clientService.getToken(tokenDto);
     }
 
     @PostMapping("/messages")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<List<MessageResponseDto>> message(@RequestBody MessageRequestDto messageDto,
+    public ResponseEntity<List<MessageResponseDto>> message(@Validated @RequestBody MessageRequestDto messageDto,
                                                             HttpServletRequest request) {
         return clientService.message(messageDto, request);
     }
