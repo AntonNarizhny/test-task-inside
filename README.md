@@ -47,9 +47,8 @@
 3. При первом запуске проекта Liquibase создаст все необходимые таблицы в базе данных и добавит в них данные.
 
 ## Для работы через Docker❗
-Сперва необходимо выполнить команду **./mvnw clean**, после **./mvnw clean package -DskipTests**.
-Далее необходимо перейти на мой [Docker Hub](https://hub.docker.com/u/antonnarizhny) и скачать image проекта. 
-Команда **docker pull antonnarizhny/test-task-inside_api_service** может измениться в будущем.
+Сперва необходимо добавить в директорию, из которой будет запускаться приложение, jar-файл (его необходимо поместить в директорию target), а также Dockerfile и docker-compose.yaml.
+Далее необходимо скачать image проекта с помощью команды **docker pull antonnarizhny/test-task-inside_api_service**.
 Данную команду необходимо ввести в терминал, после чего нужно ввести команду **docker images**, чтобы убедиться, что image скачан.
 Следом нужно последовательно ввести команды **docker-compose build** и **docker-compose up**.
 Вместе с проектом будет загружен image PostgreSQL. Сервис сам к ней подключится, Liquibase создаст все необходимые таблицы в базе данных и добавит в них данные.
